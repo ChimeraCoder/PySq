@@ -1,0 +1,61 @@
+Pysq
+=========
+
+Introduction
+-------------
+
+Pysq is an unofficial wrapper for version 2 of the Foursquare API. It was developed on Python 2.7 on a Linux machine, though it should work on Python 2.6 and on other platforms.
+
+
+
+Use
+----
+
+Pysq provides a wrapper for authentication through OAuth. First, register your application on the Foursquare developer homepage to receive your client_id and client_secret values. Then, authenticate using the FSAuthenticator class. (Note that redirect_uri is the uri for your application, which you register with Foursquare).
+
+> import pysq.apiv2 as psq
+> authenticator = psq.FSAuthenticator(client_id, client_secret, redirect_uri)
+
+
+
+Then, redirect your user to the uri that the FSAuthenticator object generates:
+
+> uri = authenticator.authorize_uri()
+
+The user will sign in with his/her Foursquare credentials, and Foursquare will redirect back to your registered page (redirect_uri), with a code passed as a GET parameter. Retrieve this code and pass it in to the set_token method:
+
+> authenticator.set_token(code)
+
+You are now ready to begin making queries that this user is authorized to make!
+
+
+Querying Users
+--------------
+
+To obtain a User object, use the UserFinder object.
+
+> finder = psq.UserFinder(authenticator)
+
+> my_user = finder.findUser(id)
+
+
+Other Queries
+-------------
+Generally, Pysq objects return other Pysq objects when appropriate (so my_user.get_checkins() will return a list of Checkin objects).
+
+However, when a desired method is not available, other queries can be made using the authenticator directly:
+
+> authenticator.query(self, "/QUERY/PATH", {query_params : value)
+
+In addition, the data from each query is stored in every Pysq object. For example:
+
+> my_user.data
+
+will display the results of the query, accessible as a dictionary.
+
+
+
+Caching
+-------
+
+To comply with the terms of service for the Foursquare API, cached data should be deleted after a certain period of time (specified in the terms of service). For convenience, every Pysq object stores the timestamp of the query (eg: my_user.time).

@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: pysq
+Version: 0.1.0
+Summary: Foursquare APIv2 Wrapper
+Home-page: https://github.com/ChimeraCoder/Pysq
+Author: Aditya Mukerjee
+Author-email: dev@chimeracoder.net
+License: Modified BSD
+Description: An unofficial wrapper for Foursquare APIv2
+Platform: UNKNOWN
